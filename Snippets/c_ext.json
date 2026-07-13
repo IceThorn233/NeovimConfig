@@ -1,0 +1,245 @@
+{
+    "clangformat off block": {
+        "prefix": "clangformat",
+        "body": [
+            "/* clang-format off */$0",
+            "",
+            "${TM_SELECTED_TEXT}",
+            "/* clang-format on */",
+            ""
+        ],
+        "description": "clang-format off (Outside Code Supported)"
+    },
+    "extern": {
+        "prefix": "extern",
+        "body": [
+            "#if defined(__cplusplus)",
+            "extern \"C\" {",
+            "#endif // __cplusplus",
+            "$0${TM_SELECTED_TEXT}",
+            "#if defined(__cplusplus)",
+            "}",
+            "#endif // __cplusplus\n"
+        ],
+        "description": "snippet for extern (Outside Code Supported)"
+    },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for (int ${1} = ${2:0}; ${1} < ${3:length}; ${1}++)",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "}\n"
+        ],
+        "description": "snippet for a for loop (Outside Code Supported)"
+    },
+    "do": {
+        "prefix": "do",
+        "body": [
+            "do",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "} while($1);\n"
+        ],
+        "description": "snippet for a do...while loop (Outside Code Supported)"
+    },
+    "while": {
+        "prefix": "while",
+        "body": [
+            "while ($1)",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "}\n"
+        ],
+        "description": "snippet for a while loop (Outside Code Supported)"
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if ($1)",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "}"
+        ],
+        "description": "snippet for an if statement (Outside Code Supported)"
+    },
+    "else": {
+        "prefix": "else",
+        "body": [
+            "else",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "}\n"
+        ],
+        "description": "snippet for else (Outside Code Supported)"
+    },
+    "else if": {
+        "prefix": "else if",
+        "body": [
+            "else if ($1)",
+            "{",
+            "${TM_SELECTED_TEXT}$0",
+            "}"
+        ],
+        "description": "snippet for else-if (Outside Code Supported)"
+    },
+    "enum": {
+        "prefix": "enum",
+        "body": [
+            "enum $1",
+            "{",
+            "\t$0",
+            "};\n"
+        ],
+        "description": "snippet for an enum declaration"
+    },
+    "#ifndef": {
+        "prefix": "#ifndef",
+        "body": [
+            "#ifndef __${TM_FILENAME_BASE/(.*)/${1:/upcase}/}__H__",
+            "#define __${TM_FILENAME_BASE/(.*)/${1:/upcase}/}__H__",
+            "${TM_SELECTED_TEXT}$0",
+            "#endif  //!__${TM_FILENAME_BASE/(.*)/${1:/upcase}/}__H__"
+        ],
+        "description": "snippet for #ifndef (Outside Code Supported)"
+    },
+    "#ifdef": {
+        "prefix": "#ifdef",
+        "body": [
+            "#ifdef  $1",
+            "${TM_SELECTED_TEXT}$0",
+            "#endif  //$1"
+        ],
+        "description": "snippet for #ifdef (Outside Code Supported)"
+    },
+    "#if defined()": {
+        "prefix": "#ifdefined",
+        "body": [
+            "#if defined($1)",
+            "${TM_SELECTED_TEXT}$0",
+            "#endif  //$1"
+        ],
+        "description": "snippet for #if defined() (Outside Code Supported)"
+    },
+    "#ifdef and true": {
+        "prefix": "#if defined and true",
+        "body": [
+            "#if (defined(${TM_FILENAME_BASE/(.*)/${1:/upcase}/}) && (${TM_FILENAME_BASE/(.*)/${1:/upcase}/}))$0",
+            "",
+            "${TM_SELECTED_TEXT}",
+            "#else",
+            "#endif //${TM_FILENAME_BASE/(.*)/${1:/upcase}/}",
+            ""
+        ],
+        "description": "#if defined and true (Outside Code Supported)"
+    },
+    "#if": {
+        "prefix": "#if",
+        "body": [
+            "#if  $1",
+            "${TM_SELECTED_TEXT}$0",
+            "#endif  //$1"
+        ],
+        "description": "snippet for #if (Outside Code Supported)"
+    },
+    "switch": {
+        "prefix": "switch",
+        "body": [
+            "switch ($1)",
+            "{",
+            "  case $2:",
+            "\t$0",
+            "\tbreak;",
+            "\n",
+            "\n",
+            "  default:",
+            "\tbreak;",
+            "}"
+        ],
+        "description": "snippet for a switch statement"
+    },
+    "case": {
+        "prefix": "case",
+        "body": [
+            "  case $1:",
+            "\t$0",
+            "\tbreak;"
+        ],
+        "description": "snippet for case (...)"
+    },
+    "#inc": {
+        "prefix": "#inc",
+        "body": [
+            "#include "
+        ],
+        "description": "snippet for #include"
+    },
+    "#def": {
+        "prefix": "#def",
+        "body": [
+            "#define  $1  $2",
+            "$0"
+        ],
+        "description": "snippet for #define"
+    },
+    "func": {
+        "prefix": "func",
+        "body": [
+            "${1:void}\t${2:funcName}(${3:int}, ${4:arg})",
+            "{",
+            "${TM_SELECTED_TEXT}",
+            "\t$0",
+            "}\n"
+        ],
+        "description": "snippet for a new function (Outside Code Supported)"
+    },
+    "typedef": {
+        "prefix": "typedef",
+        "body": [
+            "typedef ${1:char}\t${2:BYTE};$0"
+        ],
+        "description": "snippet for a typedef"
+    },
+    "typedeffunc": {
+        "prefix": "typedefpfunc",
+        "body": [
+            "typedef ${1:int}\t(*${2:PFuncName})(${3:int}, ${4:int});$0"
+        ],
+        "description": "snippet for a typedef pfunction"
+    },
+    "typedefstruct": {
+        "prefix": "typedefstruct",
+        "body": [
+            "typedef struct",
+            "{",
+            "\t${2:int}\t${3:Item};$0",
+            "} ${1:StructNameS};"
+        ],
+        "description": "snippet for a typedef struct"
+    },
+    "typedefenum": {
+        "prefix": "typedefenum",
+        "body": [
+            "typedef enum",
+            "{",
+            "\t${2:Item} = ${3:0},",
+            "\t${4:Item2}$0",
+            "} ${1:EnumNameE};"
+        ],
+        "description": "snippet for a typedef enum"
+    },
+    "fileheader": {
+        "prefix": "fileheader",
+        "body": [
+            "/**",
+            "**********************************************************************************************************************************************************************************************************************************",
+            "* @file:\t$TM_FILENAME",
+            "* @author:\t$1",
+            "* @date:\t$CURRENT_YEAR年$CURRENT_MONTH月$CURRENT_DATE日 $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND $CURRENT_DAY_NAME",
+            "* @brief:\t$2",
+            "**********************************************************************************************************************************************************************************************************************************",
+            "**/"
+        ],
+        "description": "snippet for a file header"
+    }
+}

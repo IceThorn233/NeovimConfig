@@ -1,0 +1,81 @@
+{
+    "@anchor": {
+        "prefix": "@anchor",
+        "body": [
+            "@anchor ${1:[TODO:List of authors.]}"
+        ],
+        "description": "Starts a paragraph where one or more author names may be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @author commands will be joined into a single paragraph. Each author description will start a new line. Alternatively, one @author command may mention several authors. The @author command ends when a blank line or some other sectioning command is encountered."
+    },
+    "@anchors": {
+        "prefix": "@anchors",
+        "body": [
+            "@anchors ${1:[TODO:List of authors]}"
+        ],
+        "description": "Starts a paragraph where one or more author names may be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @author commands will be joined into a single paragraph. Each author description will start a new line. Alternatively, one @author command may mention several authors. The @author command ends when a blank line or some other sectioning command is encountered."
+    },
+    "@bug": {
+        "prefix": "@bug",
+        "body": [
+            "@bug ${1:[TODO:Bug description]}"
+        ],
+        "description": " Starts a paragraph where one or more bugs may be reported. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @bug commands will be joined into a single paragraph. Each bug description will start on a new line. Alternatively, one @bug command may mention several bugs. The @bug command ends when a blank line or some other sectioning command is encountered. See section @author for an example.The description will also add an item to a separate Bug list and the two instances of the description will be cross-referenced. Each item in the Bug list will be preceded by a header that indicates the origin of the item.The Bug list and the corresponding entries can be disabled by setting the GENERATE_BUGLIST to NO."
+    },
+    "@exception": {
+        "prefix": "@exception",
+        "body": [
+            "@exception ${1:[TODO:ExceptionObject]} ${2:{[TODO:Exception description.]}}"
+        ],
+        "description": "Starts an exception description for an exception object with name <exception-object>. "
+    },
+    "@warning": {
+        "prefix": "@warning",
+        "body": [
+            "@warning ${1:[TODO:Warning Message]}"
+        ],
+        "description": "Starts a paragraph where one or more warning messages may be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @warning commands will be joined into a single paragraph. Each warning description will start on a new line. Alternatively, one @warning command may mention several warnings. The @warning command ends when a blank line or some other sectioning command is encountered. See section @author for an example."
+    },
+    "@since": {
+        "prefix": "@since",
+        "body": [
+            "@since ${1:[TODO:Text.]}"
+        ],
+        "description": "This command can be used to specify since when (version or time) an entity is available. The paragraph that follows @since does not have any special internal structure. All visual enhancement commands may be used inside the paragraph. The @since description ends when a blank line or some other sectioning command is encountered."
+    },
+    "@namespace": {
+        "prefix": "@namespace",
+        "body": [
+            "@namespace ${1:[TODO:Name]}"
+        ],
+        "description": "Indicates that a comment block contains documentation for a namespace with name <name>."
+    },
+    "@date": {
+        "prefix": "@date",
+        "body": [
+            "@date ${1:${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}}"
+        ],
+        "description": "Starts a paragraph where one or more dates may be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @date commands will be joined into a single paragraph. Each date description will start on a new line. Alternatively, one @date command may mention several dates. The @date command ends when a blank line or some other sectioning command is encountered. See section @author for an example."
+    },
+    "@brief": {
+        "prefix": "@brief",
+        "body": [
+            "@brief ${1:[TODO:Brief description.]}"
+        ],
+        "description": " Starts a paragraph that serves as a brief description. For classes and files the brief description will be used in lists and at the start of the documentation page. For class and file members, the brief description will be placed at the declaration of the member and prepended to the detailed description. A brief description may span several lines (although it is advised to keep it brief!). A brief description ends when a blank line or another sectioning command is encountered. If multiple @brief commands are present they will be joined. See section @author for an example."
+    },
+    "@image": {
+        "prefix": "@image",
+        "body": [
+            "@image ${1:[TODO:Format]} ${2:[TODO:File]} ${3:caption} ${4:[<sizeindication>=<size>]}"
+        ],
+        "description": "Inserts an image into the documentation. This command is format specific, so if you want to insert an image for more than one format you'll have to repeat this command for each format."
+    },
+    "@code": {
+        "prefix": "@code",
+        "body": [
+            "@code${1:[TODO:Language]}",
+            "* ${2:[TODO:Code body]}",
+            "* @endcode"
+        ],
+        "description": "Starts a block of code. A code block is treated differently from ordinary text. It is interpreted as source code. The names of classes and members and other documented entities are automatically replaced by links to the documentation."
+    }
+}

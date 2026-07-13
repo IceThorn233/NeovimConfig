@@ -1,0 +1,25 @@
+{
+    "name": "example-snippets",
+    "contributes": {
+        "snippets": [
+            {
+                "language": [
+                    "c"
+                ],
+                "path": "./Snippets/c_ext.json"
+            },
+            {
+                "language": [
+                    "cpp"
+                ],
+                "path": "./Snippets/cpp_ext.json"
+            },
+            {
+                "language": [
+                    "cdoc"
+                ],
+                "path": "./Snippets/c_document_ext.json"
+            }
+        ]
+    }
+}

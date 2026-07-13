@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri name="http://schemas.microsoft.com/developer/msbuild/2003"
+        uri="https://fastly.jsdelivr.net/gh/dotnet/msbuild@main/src/MSBuild/MSBuild/Microsoft.Build.CommonTypes.xsd"/>
+</catalog>
