@@ -1,4 +1,4 @@
-{
+{]
     "name": "example-snippets",
     "contributes": {
         "snippets": [
@@ -16,7 +16,8 @@
             },
             {
                 "language": [
-                    "cdoc"
+                    "cdoc",
+                    "cppdoc"
                 ],
                 "path": "./Snippets/c_document_ext.json"
             }

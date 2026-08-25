@@ -1,9 +1,9 @@
-require("Config.Config")
+require("Config.Configura")
 require("Config.Lazy")
-require("Config.Keymap")
+require("Config.Keymaps.EmacsKeymap")
+require("Config.Keymaps.PluginKeymap")
 require("Config.AutoCommands")
 require("LSPConfigs")
 require("DAPConfigs")
 vim.cmd.colorscheme("catppuccin-latte")
 vim.cmd.colorscheme("catppuccin-latte")
-

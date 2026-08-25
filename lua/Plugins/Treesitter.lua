@@ -123,6 +123,7 @@ return {
 			},
 		},
         --- @type fun(table,TSTextObjects.UserConfig)
+        --- @param Option TSTextObjects.UserConfig
 		config = function(_, Option)
 			require("nvim-treesitter-textobjects").setup(Option)
 		end,

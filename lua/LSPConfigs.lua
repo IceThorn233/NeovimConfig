@@ -3,23 +3,25 @@ local function CheckIfTheModuleExists(ModuleName)
 end
 
 vim.lsp.log.set_level(vim.log.levels.OFF)
+
 vim.diagnostic.config({
 	virtual_text = true,
 	update_in_insert = true,
 	underline = true,
 })
-vim.lsp.enable("omnisharp")
-vim.lsp.enable("bashls")
-vim.lsp.enable("zls")
-vim.lsp.enable("rust-analyzer")
-vim.lsp.enable("ccls")
--- vim.lsp.enable('tombi')
-vim.lsp.enable("tablo")
-vim.lsp.enable("lua_ls")
-vim.lsp.enable("jsonls")
-vim.lsp.enable("lemminx")
-vim.lsp.enable("neocmake")
-vim.lsp.enable("yamlls")
+vim.lsp.enable({
+	"bashls",
+	"zls",
+	"rust-analyzer",
+	"ccls",
+	"tablo",
+	"lua_ls",
+	"jsonls",
+	"lemminx",
+	"neocmake",
+	"yamlls",
+})
+
 -- local HasSchemaStore = CheckIfTheModuleExists("schemastore")
 local HasOmniSharpExtended = CheckIfTheModuleExists("omnisharp_extended")
 
@@ -55,7 +57,6 @@ vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {},
 		tsserver = {
-			logVerbosity = "Off",
 		},
 	},
 })
@@ -128,7 +129,7 @@ vim.lsp.config("clangd", {
 	},
 })
 vim.lsp.config("ccls", {
-    -- single_file_support = true,
+	-- single_file_support = true,
 	init_options = {
 		compilationDatabaseDirectory = "build",
 		cache = {
@@ -206,7 +207,7 @@ vim.lsp.config("yamlls", {
 		yaml = {
 			schemas = {
 				["https://www.schemastore.org/clang-format-21.x.json"] = ".clang-format",
-                ["https://www.schemastore.org/clang-tidy.json"] = ".clang-tidy"
+				["https://www.schemastore.org/clang-tidy.json"] = ".clang-tidy",
 			},
 		},
 	},
@@ -252,12 +253,12 @@ vim.lsp.config("jsonls", {
 					},
 					url = "https://fastly.jsdelivr.net/gh/microsoft/vcpkg-tool@main/docs/vcpkg.schema.json",
 				},
-                {
-                    fileMatch = {
-                        "package.json"
-                    },
-                    url = "https://fastly.jsdelivr.net/gh/SchemaStore/schemastore@master/src/schemas/json/package.json"
-                },
+				{
+					fileMatch = {
+						"package.json",
+					},
+					url = "https://fastly.jsdelivr.net/gh/SchemaStore/schemastore@master/src/schemas/json/package.json",
+				},
 			},
 		},
 	},

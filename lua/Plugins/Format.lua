@@ -13,6 +13,7 @@ return {
 					sh = { "shfmt" },
 					dash = { "shfmt" },
 					bash = { "shfmt" },
+					zsh = { "shfmt" },
 					toml = { "pyproject-fmt", "taplo" },
 					cmake = { "cmake_format" },
 				},

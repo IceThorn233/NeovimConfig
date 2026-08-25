@@ -27,7 +27,11 @@ return {
 				},
 				custom_filter = function(bufferName, bufferNumber)
 					if
-						vim.bo[bufferName].filetype == "grug-far"
+						vim.bo[bufferName].filetype == "aplha"
+						or vim.bo[bufferName].filetype == "trouble"
+						or vim.bo[bufferName].filetype == "toggleterm"
+						or vim.bo[bufferName].filetype == "grug-far"
+						or vim.bo[bufferName].filetype == "neo-tree"
 						or vim.bo[bufferName].filetype == "checkhealth"
 						or vim.bo[bufferName].filetype == "help"
 						or vim.bo[bufferName].filetype == "better_term"
@@ -35,8 +39,12 @@ return {
 						or vim.bo[bufferName].filetype == "dapui_breakpoints"
 						or vim.bo[bufferName].filetype == "dapui_stacks"
 						or vim.bo[bufferName].filetype == "dapui_watches"
-						or vim.bo[bufferName].filetype == "dap-repl"
 						or vim.bo[bufferName].filetype == "dapui_console"
+						or vim.bo[bufferName].filetype == "dap-repl"
+						or vim.bo[bufferName].filetype == "dap-view"
+						or vim.bo[bufferName].filetype == "grug-far"
+						or vim.bo[bufferName].filetype == "OverseerList"
+						or vim.bo[bufferName].filetype == "OverseerOutput"
 					then
 						return false
 					end
@@ -90,7 +98,7 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			options = {
-				theme = "catppuccin",
+				theme = "catppuccin-nvim",
 			},
 			sections = {
 				lualine_x = {
@@ -114,7 +122,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			groups = {
-				--- @type EdgyGroup[]ex
+				--- @type EdgyGroup[]
 				right = {
 					{
 						icon = " ",
@@ -226,11 +234,11 @@ return {
 					ft = "dap-view",
 					open = "DapViewToggle",
 				},
-                {
-                    title = "DapRepl",
+				{
+					title = "DapRepl",
 					ft = "dap-repl",
 					open = "DapViewToggle",
-                },
+				},
 			},
 			---@type (Edgy.View.Opts|string)[]
 			right = {
@@ -372,8 +380,15 @@ return {
 		},
 		lazy = false, -- neo-tree will lazily load itself
 		keys = {},
+		---@type neotree.Config
 		opts = {
 			filesystem = {
+				filtered_items = {
+					visible = true,
+					never_show = {
+						".DS_store",
+					},
+				},
 				window = {
 					mappings = {
 						["<TAB>"] = { "toggle_node", nowait = true },
@@ -393,6 +408,9 @@ return {
 				sync = "global", -- or "global"/"universal" to share a clipboard for each/all Neovim instance(s), respectively
 			},
 		},
+		config = function(_, Options)
+			require("neo-tree").setup(Options)
+		end,
 	},
 	{
 		"3rd/image.nvim",
@@ -420,5 +438,8 @@ return {
 			vim.g.loaded_netrwPlugin = 1
 		end,
 		keys = {},
+	},
+	{
+		"RRethy/vim-illuminate",
 	},
 }

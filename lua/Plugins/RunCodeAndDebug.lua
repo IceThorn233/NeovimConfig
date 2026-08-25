@@ -17,6 +17,7 @@ return {
 	},
 	{
 		"igorlfs/nvim-dap-view",
+        lazy = false,
 		---@module 'dap-view'
 		---@type dapview.Config
 		opts = {

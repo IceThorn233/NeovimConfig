@@ -8,14 +8,18 @@ return {
 		lazy = false,
 		opts = {},
 		config = function(_, Options)
-			require("luasnip").filetype_extend("c", { "cdoc"})
+			require("luasnip").filetype_extend("c", { "cdoc" })
 			require("luasnip").filetype_extend("cpp", { "cdoc", "cppdoc" })
-			-- require("luasnip").filetype_extend("c", { "cdoc", "c_ext" })
-			-- require("luasnip").filetype_extend("cpp", { "cdoc", "cppdoc", "cpp_ext" })
 			require("luasnip").filetype_extend("cs", { "csharp", "csharpdoc" })
 			require("luasnip").filetype_extend("csharp", { "csharp", "csharpdoc" })
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_snipmate").lazy_load()
+			require("luasnip.loaders.from_lua").lazy_load()
+			vim.api.nvim_create_user_command("LuaSnipReload", function(args)
+				require("luasnip.loaders.from_vscode").load()
+				require("luasnip.loaders.from_snipmate").load()
+				require("luasnip.loaders.from_lua").load()
+			end, { desc = "Reload vscode style snippets." })
 		end,
 	},
 	{

@@ -126,6 +126,7 @@ return {
 					"@nosubgrouping",
 					"@param",
 					"@return",
+					"@returns",
 					"@date",
 					"@namespace",
 					"@example",
@@ -138,6 +139,8 @@ return {
 					"@brief",
 					"@file",
 					"@anchor",
+                    "@result",
+                    "@retval",
 					"@note", -- Add or remove tags as needed
 				},
 			})

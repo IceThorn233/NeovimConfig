@@ -40,7 +40,7 @@ require("lazy").setup({
 		{ import = "Plugins.Terminal" },
 		-- { import = "Plugins.InputMethod" },
 		{ import = "Plugins.RunCodeAndDebug" },
-		{ import = "Plugins.Languages.Lua" },
+		{ import = "Plugins.Languages.LuaNeovim" },
 		{ import = "Plugins.Languages.Cpp" },
 		{ import = "Plugins.Languages.Json" },
 		{ import = "Plugins.Languages.Markdown" },

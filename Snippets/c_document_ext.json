@@ -23,7 +23,7 @@
     "@exception": {
         "prefix": "@exception",
         "body": [
-            "@exception ${1:[TODO:ExceptionObject]} ${2:{[TODO:Exception description.]}}"
+            "@exception ${1:[TODO:ExceptionObject]} ${2:[Optional TODO:Exception Description]}"
         ],
         "description": "Starts an exception description for an exception object with name <exception-object>. "
     },
@@ -65,7 +65,7 @@
     "@image": {
         "prefix": "@image",
         "body": [
-            "@image ${1:[TODO:Format]} ${2:[TODO:File]} ${3:caption} ${4:[<sizeindication>=<size>]}"
+            "@image ${1:[TODO:Format]} ${2:[TODO:File]} ${3:caption} ${4:[Optional: <sizeindication>=<size>]}"
         ],
         "description": "Inserts an image into the documentation. This command is format specific, so if you want to insert an image for more than one format you'll have to repeat this command for each format."
     },
@@ -77,5 +77,113 @@
             "* @endcode"
         ],
         "description": "Starts a block of code. A code block is treated differently from ordinary text. It is interpreted as source code. The names of classes and members and other documented entities are automatically replaced by links to the documentation."
+    },
+    "@throw": {
+        "prefix": "@throw",
+        "body": [
+            "@throw ${1:[TODO:Exception object]} ${2:[Optional TODO:Exception Description]}"
+        ],
+        "description": " Starts an exception description for an exception object with name <exception-object>. Followed by a description of the exception. The existence of the exception object is not checked. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @exception commands will be joined into a single paragraph. Each exception description will start on a new line. The @exception description ends when a blank line or some other sectioning command is encountered. See section @fn for an example."
+    },
+    "@throws": {
+        "prefix": "@throws",
+        "body": [
+            "@throws ${1:[TODO:Exception object]} ${2:[Optional TODO:Exception Description]}"
+        ],
+        "description": "Starts an exception description for an exception object with name <exception-object>. Followed by a description of the exception. The existence of the exception object is not checked. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @exception commands will be joined into a single paragraph. Each exception description will start on a new line. The @exception description ends when a blank line or some other sectioning command is encountered. See section @fn for an example."
+    },
+    "@note": {
+        "prefix": "@note",
+        "body": [
+            "@note ${1:[TODO:Text]}"
+        ],
+        "description": "Starts a paragraph where a note can be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @note commands will be joined into a single paragraph. Each note description will start on a new line. Alternatively, one @note command may mention several notes. The @note command ends when a blank line or some other sectioning command is encountered. See section @par for an example."
+    },
+    "@public": {
+        "prefix": "@public",
+        "body": [
+            "@public"
+        ],
+        "description": "Indicates that the member documented by the comment block is public, i.e., can be accessed by any other class or function."
+    },
+    "copyright": {
+        "prefix": "@copyright",
+        "body": [
+            "@copyright ${1:[TODO:copyright description]}"
+        ],
+        "description": "Starts a paragraph where the copyright of an entity can be described. This paragraph will be indented. The text of the paragraph has no special internal structure. See section @author for an example."
+    },
+    "@retval": {
+        "prefix": "@retval",
+        "body": [
+            "@retval ${1:[TODO:Return Value]} ${2:[Optional TODO:Description]}"
+        ],
+        "description": " Starts a description for a function's return value with name <return value>, followed by a description of the return value. The text of the paragraph that forms the description has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @retval commands will be joined into a single paragraph. Each return value description will start on a new line. The @retval description ends when a blank line or some other sectioning command is encountered."
+    },
+    "@version": {
+        "prefix": "@version",
+        "body": [
+            "@version ${1:[TODO:Version Number]}"
+        ],
+        "description": " Starts a paragraph where one or more version strings may be entered. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @version commands will be joined into a single paragraph. Each version description will start on a new line. Alternatively, one @version command may mention several version strings. The @version command ends when a blank line or some other sectioning command is encountered. See section @author for an example."
+    },
+    "@todo": {
+        "prefix": "@todo",
+        "body": [
+            "@todo ${1:[TODO:Paragraph describing what is to be done]}"
+        ],
+        "description": " Starts a paragraph where one or more todo items are described. The paragraph will be indented. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @todo commands will be joined into a single paragraph. Each todo description will start on a new line. Alternatively, one @todo command may mention several todo descriptions. The @todo command ends when a blank line or some other sectioning command is encountered."
+    },
+    "@param[in]": {
+        "prefix": [
+            "@paramin",
+            "@inparam",
+            "@param[in]"
+        ],
+        "body": [
+            "@param[in] ${1:[TODO:Parameter name]} ${2:[Optional TODO:Parameter description]}"
+        ],
+        "description": "Starts a parameter description for a function parameter with name <parameter-name>, followed by a description of the parameter. The existence of the parameter is checked and a warning is given if the documentation of this (or any other) parameter is missing or not present in the function declaration or definition."
+    },
+    "@param[out]": {
+        "prefix": [
+            "@paramout",
+            "@outparam",
+            "@param[out]"
+        ],
+        "body": [
+            "@param[out] ${1:[TODO:Parameter name]} ${2:[Optional TODO:Parameter description]}"
+        ],
+        "description": "Starts a parameter description for a function parameter with name <parameter-name>, followed by a description of the parameter. The existence of the parameter is checked and a warning is given if the documentation of this (or any other) parameter is missing or not present in the function declaration or definition."
+    },
+    "@param": {
+        "prefix": [
+            "@param"
+        ],
+        "body": [
+            "@param ${1:[TODO:Parameter name]} ${2:[Optional TODO:Parameter description]}"
+        ],
+        "description": "Starts a parameter description for a function parameter with name <parameter-name>, followed by a description of the parameter. The existence of the parameter is checked and a warning is given if the documentation of this (or any other) parameter is missing or not present in the function declaration or definition."
+    },
+    "@return": {
+        "prefix": "@return",
+        "body": [
+            "@return ${1:[TODO:Description of the return value]}"
+        ],
+        "description": " Starts a return value description for a function. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @return commands will be joined into a single paragraph. The @return description ends when a blank line or some other sectioning command is encountered. See section @fn for an example."
+    },
+    "@returns": {
+        "prefix": "@returns",
+        "body": [
+            "@returns ${1:[TODO:Description of the return value]}"
+        ],
+        "description": " Starts a return value description for a function. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @return commands will be joined into a single paragraph. The @return description ends when a blank line or some other sectioning command is encountered. See section @fn for an example."
+    },
+    "@result": {
+        "prefix": "@result",
+        "body": [
+            "@result ${1:[TODO:Description of the return value]}"
+        ],
+        "description": " Starts a return value description for a function. The text of the paragraph has no special internal structure. All visual enhancement commands may be used inside the paragraph. Multiple adjacent @return commands will be joined into a single paragraph. The @return description ends when a blank line or some other sectioning command is encountered. See section @fn for an example."
     }
 }

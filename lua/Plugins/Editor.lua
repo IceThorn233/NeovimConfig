@@ -126,9 +126,13 @@ return {
 			},
 		},
 	},
+	-- {
+	-- 	"NyxVim/nvim-colorizer.lua",
+	-- 	opts = {},
+	-- 	lazy = false,
+	-- },
 	{
-		"NyxVim/nvim-colorizer.lua",
+		"brenoprata10/nvim-highlight-colors",
 		opts = {},
-		lazy = false,
 	},
 }

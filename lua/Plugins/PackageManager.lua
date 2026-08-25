@@ -9,6 +9,9 @@ return {
                     package_uninstalled = "✗"
                 }
             }
-        }
+        },
+        config = function (_,Options)
+            require("mason").setup(Options)
+        end
     }
 }

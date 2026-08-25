@@ -35,18 +35,23 @@ return {
 		"saghen/blink.cmp",
 		optional = true,
 		---@type fun(param:table,param:blink.cmp.Config)
-        ---@param Options blink.cmp.Config
+		---@param Options blink.cmp.Config
 		opts = function(_, Options)
-            Options = Options or {}
-            Options.sources = Options.sources or {}
-            Options.sources.default = Options.sources.default or {}
-            Options.sources.providers = Options.sources.providers or {}
+			Options = Options or {}
+			Options.sources = Options.sources or {}
+			Options.sources.default = Options.sources.default or {}
+			Options.sources.providers = Options.sources.providers or {}
 
 			table.insert(Options.sources.default, 1, "codecompanion")
 			Options.sources.providers.codecompanion = {
 				name = "CodeCompanion",
 				module = "codecompanion.providers.completion.blink",
 			}
+		end,
+		---@type fun(param:table,param:blink.cmp.Config)
+		---@param Options blink.cmp.Config
+		config = function(_, Options)
+			require("blink-cmp").setup(Options)
 		end,
 	},
 }
