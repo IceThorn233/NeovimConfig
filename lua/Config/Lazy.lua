@@ -41,6 +41,7 @@ require("lazy").setup({
 		-- { import = "Plugins.InputMethod" },
 		{ import = "Plugins.RunCodeAndDebug" },
 		{ import = "Plugins.Languages.LuaNeovim" },
+		{ import = "Plugins.Languages.LuaXMake" },
 		{ import = "Plugins.Languages.Cpp" },
 		{ import = "Plugins.Languages.Json" },
 		{ import = "Plugins.Languages.Markdown" },
@@ -51,4 +52,8 @@ require("lazy").setup({
 	rocks = {
 		server = "https://rimeinn.github.io/rime.nvim/",
 	},
+    change_detection={
+        enabled = false
+    },
+    
 })

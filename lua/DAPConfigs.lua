@@ -1,9 +1,5 @@
 local Dap = require("dap")
 
-Dap.adapters["lldb-dap"] = {
-	type = "executable",
-	command = "lldb-dap",
-}
 local CodeLldb = {
 	type = "server",
 	port = "${port}",

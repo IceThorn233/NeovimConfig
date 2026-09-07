@@ -1,4 +1,4 @@
-{]
+{
     "name": "example-snippets",
     "contributes": {
         "snippets": [
@@ -19,7 +19,7 @@
                     "cdoc",
                     "cppdoc"
                 ],
-                "path": "./Snippets/c_document_ext.json"
+                "path": "./Snippets/DoxygenSnippets.json"
             }
         ]
     }

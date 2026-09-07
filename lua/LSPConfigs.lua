@@ -2,8 +2,6 @@ local function CheckIfTheModuleExists(ModuleName)
 	return pcall(require, ModuleName)
 end
 
-vim.lsp.log.set_level(vim.log.levels.OFF)
-
 vim.diagnostic.config({
 	virtual_text = true,
 	update_in_insert = true,
@@ -56,8 +54,7 @@ vim.lsp.config("lua_ls", {
 	end,
 	settings = {
 		Lua = {},
-		tsserver = {
-		},
+		tsserver = {},
 	},
 })
 if HasOmniSharpExtended then
@@ -208,6 +205,7 @@ vim.lsp.config("yamlls", {
 			schemas = {
 				["https://www.schemastore.org/clang-format-21.x.json"] = ".clang-format",
 				["https://www.schemastore.org/clang-tidy.json"] = ".clang-tidy",
+                ["https://cmakefmt.dev/schemas/latest/schema.json"] = ".cmakefmt.yaml"
 			},
 		},
 	},
@@ -216,6 +214,12 @@ vim.lsp.config("jsonls", {
 	settings = {
 		json = {
 			schemas = {
+				{
+					fileMatch = {
+						".luarc.json",
+					},
+					url = "https://fastly.jsdelivr.net/gh/LuaLS/vscode-lua@master/setting/schema.json",
+				},
 				{
 					fileMatch = {
 						"tasks.json",
@@ -263,3 +267,4 @@ vim.lsp.config("jsonls", {
 		},
 	},
 })
+vim.lsp.log.set_level(vim.log.levels.OFF)

@@ -9,7 +9,7 @@ return {
 		opts = {},
 		config = function(_, Options)
 			require("luasnip").filetype_extend("c", { "cdoc" })
-			require("luasnip").filetype_extend("cpp", { "cdoc", "cppdoc" })
+			require("luasnip").filetype_extend("cpp", { "cppdoc" })
 			require("luasnip").filetype_extend("cs", { "csharp", "csharpdoc" })
 			require("luasnip").filetype_extend("csharp", { "csharp", "csharpdoc" })
 			require("luasnip.loaders.from_vscode").lazy_load()
