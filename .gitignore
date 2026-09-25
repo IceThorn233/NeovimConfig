@@ -1,2 +1,3 @@
 lazy-lock.json
-test.lua
+nvim-pack-lock.json
+!.NeoVim

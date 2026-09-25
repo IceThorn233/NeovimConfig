@@ -1,149 +1,198 @@
---- @type LazyConfig
-return {
-    {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {},
-        lazy = false,
-        keys = {},
-    },
-    {
-        "echasnovski/mini.pairs",
-        version = "*",
-        config = function()
-            require("mini.pairs").setup()
-        end,
-    },
-    {
-        "dstein64/nvim-scrollview",
-        opts = {},
-    },
-    {
-        "Pocco81/auto-save.nvim",
-        opts = {},
-    },
-    {
-        "3rd/image.nvim",
-        dependencies = {},
-        opts = {
-            backend = "sixel", -- kitty / ueberzug / sixel
-            max_height_window_percentage = nil,
+local M = {}
+---@param globalPluginOptions IceThorn.PluginList
+---@return IceThorn.VimPack.Specs
+function M.Load(globalPluginOptions)
+    ---@type IceThorn.PluginList.Editor
+    local PluginOptions = globalPluginOptions.Editor
+    ---@type IceThorn.VimPack.Specs
+    return {
+        {
+            Source = { Url = "https://github.com/brenoprata10/nvim-highlight-colors.git" },
+            Configura = {
+                LazyLoadEvent = "BufEnter",
+                Initialization = function()
+                    require("nvim-highlight-colors").setup({})
+                end,
+            },
+            Condition = PluginOptions.EnableNVimHighlightColors,
         },
-        -- version = "v1.5.1"
-    },
-    {
-        "mrjones2014/smart-splits.nvim",
-        opts = {
-            -- Ignored buffer types (only while resizing)
-            ignored_buftypes = {
-                "nofile",
-                "quickfix",
-                "prompt",
-            },
-            ignored_filetypes = {},
-            default_amount = 3,
-            at_edge = "wrap",
-            float_win_behavior = "previous",
-            move_cursor_same_row = false,
-            cursor_follows_swapped_bufs = false,
-            ignored_events = {
-                "BufEnter",
-                "WinEnter",
-            },
-            multiplexer_integration = nil,
-            disable_multiplexer_nav_when_zoomed = true,
-            kitty_password = nil,
-            zellij_move_focus_or_tab = false,
-        },
-        keys = {
-            {
-                "<C-S-H>",
-                "<CMD>lua require('smart-splits').resize_left()<CR>",
-            },
-            {
-                "<C-S-J>",
-                "<CMD>lua require('smart-splits').resize_down()<CR>",
-            },
-            {
-                "<C-S-K>",
-                "<CMD>lua require('smart-splits').resize_up()<CR>",
-            },
-            {
-                "<C-S-L>",
-                "<CMD>lua require('smart-splits').resize_right()<CR>",
-            },
-            {
-                "<C-h>",
-                "<CMD>lua require('smart-splits').move_cursor_left()<CR>",
-            },
-            {
-                "<C-j>",
-                "<CMD>lua require('smart-splits').move_cursor_down()<CR>",
-            },
-            {
-                "<C-k>",
-                "<CMD>lua require('smart-splits').move_cursor_up()<CR>",
-            },
-            {
-                "<C-l>",
-                "<CMD>lua require('smart-splits').move_cursor_right()<CR>",
+        {
+            Source = { Url = "https://github.com/folke/which-key.nvim.git" },
+            Condition = PluginOptions.EnableWhichKey,
+            Configura = {
+                LazyLoadEvent = "BufEnter",
+                Initialization = function()
+                    require("which-key").setup({
+                        preset = "helix",
+                        loop = true,
+                    })
+                end,
             },
         },
-    },
-    {
-    	"saghen/blink.indent",
-    	--- @module 'blink.indent'
-    	--- @type blink.indent.Config
-    	opts = {},
-    },
-    -- {
-    --     "lukas-reineke/indent-blankline.nvim",
-    --     main = "ibl",
-    --     ---@module "ibl"
-    --     ---@type ibl.config
-    --     opts = {
-    --         scope = {
-    --             enabled = true
-    --         }
-    --     },
-    -- },
-    {
-        "nvim-mini/mini.surround",
-        version = "*",
-        opts = {
-            mappings = {
-                add = "<C-c>sa",
-                delete = "<C-c>sd",
-                find = "<C-c>sf",
-                find_left = "<C-c>sF",
-                highlight = "<C-c>sh",
-                replace = "<C-c>sr",
-                update_n_lines = "<C-c>sn",
+        {
+            Source = { Url = "https://github.com/nvim-mini/mini.surround.git" },
+            Condition = PluginOptions.EnableMiniSurround,
+            Configura = {
+                LazyLoadEvent = "BufEnter",
+                Initialization = function()
+                    require("mini.surround").setup({
+                        mappings = {
+                            add = "<C-c>sa",
+                            delete = "<C-c>sd",
+                            find = "<C-c>sf",
+                            find_left = "<C-c>sF",
+                            highlight = "<C-c>sh",
+                            replace = "<C-c>sr",
+                            update_n_lines = "<C-c>sn",
+                        },
+                    })
+                end,
             },
         },
-    },
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        opts = {
-            preset = "helix",
-            loop = true,
-        },
-        keys = {
-            {
-                "<leader>?",
-                '<CMD>lua require("which-key").show({ global = false })<CR>',
-                desc = "Buffer Local Keymaps (which-key)",
+        {
+            Source = { Url = "https://github.com/windwp/nvim-autopairs.git" },
+            Condition = PluginOptions.EnableAutoPair,
+            Configura = {
+                LazyLoadEvent = "BufEnter",
+                Initialization = function()
+                    require("nvim-autopairs").setup({})
+                end,
             },
         },
-    },
-    -- {
-    -- 	"NyxVim/nvim-colorizer.lua",
-    -- 	opts = {},
-    -- 	lazy = false,
-    -- },
-    {
-        "brenoprata10/nvim-highlight-colors",
-        opts = {},
-    },
-}
+        {
+            Source = { Url = "https://github.com/folke/todo-comments.nvim.git" },
+            Condition = PluginOptions.EnableTodoComment,
+            Configura = {
+                LazyLoadEvent = "BufEnter",
+                Initialization = function()
+                    require("todo-comments").setup({})
+                end,
+            },
+        },
+        {
+            Source = { Url = "https://github.com/3rd/image.nvim.git" },
+            Condition = PluginOptions.EnableImage,
+            Configura = {
+                Initialization = function()
+                    local backend = "sixel"
+                    if os.getenv("TERM") == "xterm-kitty" then
+                        backend = "kitty"
+                    end
+                    require("image").setup({
+                        backend = backend, -- kitty / ueberzug / sixel
+                        max_height_window_percentage = nil,
+                        processor = "magick_cli",
+                    })
+                end,
+                LazyLoadEvent = "BufEnter",
+            },
+        },
+        {
+            Source = { Url = "https://github.com/lukas-reineke/indent-blankline.nvim.git" },
+            Condition = PluginOptions.EnableIndentBlankline
+                and PluginOptions.IndentBlacklinePreset == "IndentBlackline",
+            Configura = {
+                LazyLoadEvent = {
+                    "BufEnter",
+                },
+                Initialization = function()
+                    require("ibl").setup()
+                end,
+            },
+        },
+        {
+            Source = { Url = "https://github.com/saghen/blink.indent.git" },
+            Condition = PluginOptions.EnableIndentBlankline and PluginOptions.IndentBlacklinePreset == "BlinkIndent",
+            Configura = {
+                Initialization = function()
+                    require("blink.indent").setup({})
+                end,
+                LazyLoadEvent = {
+                    "BufEnter",
+                },
+            },
+        },
+        {
+            Source = "https://github.com/shellRaining/hlchunk.nvim.git",
+            Condition = PluginOptions.EnableIndentBlankline and PluginOptions.IndentBlacklinePreset == "Hlchunk",
+            Configura = {
+                Initialization = function()
+                    require("hlchunk").setup({
+                        chunk = {
+                            enable = true,
+                            chars = {
+                                ["left_top"] = "┢",
+                                ["horizontal_line"] = "━",
+                                ["vertical_line"] = "┃",
+                                ["left_bottom"] = "┡",
+                                ["right_arrow"] = "━",
+                            },
+                            style = {
+                                "#04a5e5",
+                            },
+                            -- use_treesitter = true,
+                        },
+                        indent = {
+                            enable = true,
+                            exclude_filetypes = globalPluginOptions.ExcouldFiletypes,
+                            style = {
+                                "#ea76cb",
+                                "#8839ef",
+                                "#d20f39",
+                                "#e64553",
+                                "#fe640b",
+                                "#df8e1d",
+                                "#40a02b",
+                                "#179299",
+                                "#04a5e5",
+                                "#209fb5",
+                                "#1e66f5",
+                                "#7287fd",
+                            },
+                            -- use_treesitter = true,
+                        },
+                    })
+                end,
+                LazyLoadEvent = {
+                    "BufEnter",
+                },
+            },
+        },
+        {
+            Source = "https://github.com/dstein64/nvim-scrollview.git",
+            Condition = PluginOptions.EnableScrollView,
+            Configura = function()
+                require("scrollview").setup({
+                    diagnostics_severities = { vim.diagnostic.severity.ERROR },
+                })
+            end,
+        },
+        {
+            Source = "https://github.com/RRethy/vim-illuminate.git",
+            Condition = PluginOptions.EnableIlluminate,
+            Configura = function(_)
+                require("illuminate").configure({
+                    providers = {
+                        "lsp",
+                        "treesitter",
+                        "regex",
+                    },
+                    delay = 100,
+                    filetype_overrides = {},
+                })
+            end,
+        },
+        {
+            Source = "https://codeberg.org/andyg/leap.nvim.git",
+            Condition = PluginOptions.EnableLeap,
+            Configura = function()
+                require("leap").opts.labels = "asdfghjklqwerzxcvuiopnm"
+                require("leap").opts.safe_labels = "asdfghjklqwerzxcvuiopnm"
+            end,
+        },
+        {
+            Source = "https://github.com/wsdjeg/bufdel.nvim.git",
+        },
+    }
+end
+return M

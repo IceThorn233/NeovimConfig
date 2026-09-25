@@ -1,38 +1,25 @@
 vim.api.nvim_create_augroup("GitCommit", {
-	clear = true,
+    clear = true,
 })
 vim.api.nvim_create_autocmd("BufEnter", {
-	group = "GitCommit",
-	pattern = {
-		"gitcommit",
-	},
-	callback = function()
-		vim.opt_local.spell = true
-		vim.opt_local.spelllang = "en_us"
-	end,
+    group = "GitCommit",
+    pattern = {
+        "gitcommit",
+    },
+    callback = function()
+        vim.opt_local.spell = true
+        vim.opt_local.spelllang = "en_us"
+    end,
 })
-vim.api.nvim_create_augroup("DefaultClipboard", {
-	clear = true,
-})
-vim.api.nvim_create_autocmd("BufEnter", {
-	group = "DefaultClipboard",
-	pattern = {
-		"man",
-	},
-	---@param Arguments vim.api.keyset.create_autocmd.callback_args
-	callback = function(Arguments)
-		vim.o.clipboard = "unnamedplus"
-		-- vim.bo.clipboard:append("unnamedplus")
-	end,
-})
-vim.api.nvim_create_autocmd("BufLeave", {
-	group = "DefaultClipboard",
-	pattern = {
-		"man",
-	},
-	---@param Arguments vim.api.keyset.create_autocmd.callback_args
-	callback = function(Arguments)
-		vim.o.clipboard = "unnamed"
-		-- vim.bo.clipboard:append("unnamedplus")
-	end,
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        local Index = 0
+        while Index < vim.fn.argc() do
+            local Argument = vim.fn.argv(Index)
+            if type(Argument) == "string" and vim.fn.exists(Argument) and vim.fn.isdirectory(Argument) == 1 then
+                vim.fn.chdir(Argument)
+            end
+            Index = Index + 1
+        end
+    end,
 })

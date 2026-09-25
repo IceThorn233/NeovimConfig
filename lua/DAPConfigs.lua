@@ -1,28 +1,28 @@
 local Dap = require("dap")
 
 local CodeLldb = {
-	type = "server",
-	port = "${port}",
-	command = "codelldb",
-	args = {
-		"--port",
-		"${port}",
-	},
+    type = "server",
+    port = "${port}",
+    command = "codelldb",
+    args = {
+        "--port",
+        "${port}",
+    },
 }
 local LldbDap = {
-	type = "executable",
-	command = "lldb-dap",
+    type = "executable",
+    command = "lldb-dap",
 }
 local Gdb = {
-	id = "gdb",
-	type = "executable",
-	command = "gdb",
-	args = { "--quiet", "--interpreter=dap" },
+    id = "gdb",
+    type = "executable",
+    command = "gdb",
+    args = { "--quiet", "--interpreter=dap" },
 }
 local NetcoreDbg = {
-	type = "executable",
-	command = "netcoredbg",
-	args = { "--interpreter=vscode" },
+    type = "executable",
+    command = "netcoredbg",
+    args = { "--interpreter=vscode" },
 }
 Dap.adapters.coreclr = NetcoreDbg
 Dap.adapters.lldb = CodeLldb
