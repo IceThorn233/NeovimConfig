@@ -36,6 +36,7 @@ local HasEdgyGroup = CheckIfTheModuleExists("edgy-group")
 local HasTelescope = CheckIfTheModuleExists("telescope")
 local HasSmartSplit = CheckIfTheModuleExists("smart-splits")
 local HasPersisted = CheckIfTheModuleExists("persisted")
+local HasBetterTerm = CheckIfTheModuleExists("betterTerm")
 
 if HasMiniFile then
     vim.keymap.set(
@@ -92,6 +93,18 @@ elseif HasYazi then
     )
 end
 
+if HasBetterTerm then
+    vim.keymap.set({ "n", "t" }, "<C-t>", function()
+        require("betterTerm").open()
+    end, {
+        desc = "Open BetterTerm 0",
+    })
+    vim.keymap.set({ "n", "t" }, "<C-x>pt", function()
+        require("betterTerm").select()
+    end, {
+        desc = "Select terminal",
+    })
+end
 if HasPersisted then
     vim.keymap.set("n", "<C-c>ps", "<CMD>Persisted save<CR>", { desc = "Save session.", silent = true, noremap = true })
     vim.keymap.set(
@@ -375,8 +388,8 @@ else
     vim.keymap.set("n", "<C-j>", "<CMD>wincmd j<CR>", { silent = true, noremap = true })
     vim.keymap.set("n", "<C-k>", "<CMD>wincmd k<CR>", { silent = true, noremap = true })
     vim.keymap.set("n", "<C-l>", "<CMD>wincmd l<CR>", { silent = true, noremap = true })
-    vim.keymap.set("n", "<C-S-H>", "<CMD>wincmd <LT><CR>", { silent = true, noremap = true })
-    vim.keymap.set("n", "<C-S-L>", "<CMD>wincmd ><CR>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<C-S-H>", "<CMD>wincmd ><CR>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<C-S-L>", "<CMD>wincmd <LT><CR>", { silent = true, noremap = true })
     vim.keymap.set("n", "<C-S-J>", "<CMD>wincmd -<CR>", { silent = true, noremap = true })
     vim.keymap.set("n", "<C-S-K>", "<CMD>wincmd +<CR>", { silent = true, noremap = true })
 end

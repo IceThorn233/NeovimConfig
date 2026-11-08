@@ -36,6 +36,7 @@
 ---@field EnableTelescope?          boolean
 ---@field EnableTelescopeFzfNative? boolean
 ---@field EnableToggleTerm?         boolean
+---@field EnableBetterTerm?         boolean
 
 ---@class IceThorn.PluginList.LanguageServerProtocol
 ---@field EnableBlinkCmp?         boolean
@@ -72,6 +73,8 @@
 
 ---@class IceThorn.PluginList.Extras
 ---@field EnableCAndCpp? boolean
+---@field EnableMarkdown? boolean
+
 local M = {
     UserOptions = {},
     PrivateFunction = require("LuaLibrary"),
@@ -249,7 +252,6 @@ M.Load = function(PluginOptions, ...)
     elseif PluginOptions.Preset == "None" then
         PluginOptions = vim.tbl_deep_extend("force", PresetNone, PluginOptions)
     end
-
     require("PluginManager").AddPlugins(
         M.PrivateFunction.List.Merge(
             require("Plugins.Libraries").Load(PluginOptions or {}),
@@ -261,6 +263,7 @@ M.Load = function(PluginOptions, ...)
             require("Plugins.Treesitter").Load(PluginOptions or {}),
             require("Plugins.Themes").Load(PluginOptions or {}),
             require("Plugins.Extras.Language.CAndCpp").Load(PluginOptions or {}),
+            require("Plugins.Extras.Language.Markdown").Load(PluginOptions or {}),
             ...
         )
     )

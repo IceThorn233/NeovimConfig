@@ -380,6 +380,10 @@ M.Load = function(globalPluginOptions)
                         ---@type (Edgy.View.Opts|string)[]
                         bottom = {
                             {
+                                title = "BetterTerm Terminal",
+                                ft = "better_term",
+                            },
+                            {
                                 title = "Toggleterm Terminal",
                                 ft = "toggleterm",
                                 open = "ToggleTerm",
@@ -567,10 +571,17 @@ M.Load = function(globalPluginOptions)
                 Initialization = function()
                     require("toggleterm").setup({
                         open_mapping = "<C-t>",
-                        direction = 'tab'
                     })
                 end,
             },
+        },
+        {
+            Source = { Url = "https://github.com/CRAG666/betterTerm.nvim.git"},
+            Condition = PluginOptions.EnableBetterTerm,
+            Configura = function ()
+                require("betterTerm").setup({})
+                
+            end
         },
     }
 end

@@ -19,7 +19,7 @@ LoadPlugins.Load({
         EnableLeap = true,
         EnableAutoPair = true,
         EnableIlluminate = true,
-        EnableNVimHighlightColors = false,
+        EnableNVimHighlightColors = true,
         EnableWhichKey = true,
         EnableMiniSurround = true,
         EnableTodoComment = true,
@@ -29,19 +29,23 @@ LoadPlugins.Load({
         EnableTelescope = true,
         EnableBufferLine = false,
         EnableCokeLine = true,
-        EnableEdgy = false,
+        EnableEdgy = true,
         EnableLayout = false,
         EnableLualine = true,
         EnableNeoTree = true,
+        EnableToggleTerm = true,
+        EnableBetterTerm = false,
     },
     Treesitter = {
         EnableNVimTreesitterTextobject = false,
+        EnableNVimTsCommentstring = true,
     },
     LanguageServerProtocol = {
         EnableNVimCmp = false,
         EnableBlinkCmp = true,
         EnableLuaSnip = true,
         EnableFridget = true,
+        EnableTrouble = true,
     },
     Themes = {
         EnableCatppuccin = true,
@@ -49,6 +53,10 @@ LoadPlugins.Load({
         EnableLiteUi = false,
         EnableDressing = true,
         DashboardPlugin = "AlphaNVim",
+    },
+    Extras = {
+        EnableCAndCpp = true,
+        EnableMarkdown = true,
     },
 })
 require("Config.AutoCommands")

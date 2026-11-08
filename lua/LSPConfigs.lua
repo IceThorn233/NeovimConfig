@@ -12,7 +12,7 @@ vim.lsp.enable({
     "bashls",
     "zls",
     "rust-analyzer",
-    "ccls",
+    -- "ccls",
     "tablo",
     "lua_ls",
     "emmylua_ls",

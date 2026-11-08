@@ -2,7 +2,7 @@ local M = {}
 ---@param GlobalPluginOptions IceThorn.PluginList
 ---@return IceThorn.VimPack.Specs
 function M.Load(GlobalPluginOptions)
-    local PluginOptions = GlobalPluginOptions.LanguageServerProtocol
+    local PluginOptions = GlobalPluginOptions.LanguageServerProtocol or {}
     ---@type IceThorn.VimPack.Specs
     return {
         "https://github.com/neovim/nvim-lspconfig.git",
@@ -358,39 +358,25 @@ function M.Load(GlobalPluginOptions)
                 require("fidget").setup({})
             end,
         },
+        {
+            Source = "https://github.com/folke/trouble.nvim.git",
+            Condition = PluginOptions.EnableTrouble,
+            Configura = function()
+                require("trouble").setup({})
+            end,
+        },
+        {
+            Source = "https://codeberg.org/mfussenegger/nvim-lint.git",
+            Condition = PluginOptions.EnableNVimLint,
+            Configura = function(Overwrite)
+                require("lint").linters_by_ft = require("LuaLibrary").Table.TableDeepExtend("Keep", Overwrite, {})
+                vim.api.nvim_create_autocmd("BufWritePost", {
+                    callback = function()
+                        require("lint").try_lint()
+                    end,
+                })
+            end,
+        },
     }
 end
-
--- end
--- -- table.insert(require("Plugins.Extras.LazyLoadHooks").LspAttach, function(Event)
--- 	if PluginList.EnableTrouble and not M.LoadedPluginList.LoadedTrouble then
--- 		require("trouble").setup({})
--- 		M.LoadedPluginList.LoadedTrouble = true
--- 	end
--- 	if PluginList.EnableNVimLint and not M.LoadedPluginList.LoadedNVimLint then
--- 		require("lint").linters_by_ft = {
--- 			markdown = { "markdownlint-cli2" },
--- 			cpp = {
--- 				"clangtidy",
--- 			},
--- 			c = {
--- 				"clangtidy",
--- 			},
--- 		}
--- 		require("lint").linters.clangtidy.args = {
--- 			"--quiet",
--- 			"-p",
--- 			"build",
--- 		}
--- 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
--- 			callback = function()
--- 				require("lint").try_lint()
--- 			end,
--- 		})
--- 		M.LoadedPluginList.LoadedNVimLint = true
--- 	end
---                end
---            }
--- },
--- }
 return M

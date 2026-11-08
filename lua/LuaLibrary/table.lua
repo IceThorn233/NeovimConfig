@@ -37,4 +37,27 @@ function API.ChangeValue(Obj, Filter, Value, Behavior)
     return Obj
 end
 
+---Merges two or more tables recursively.
+---@generic T:table?
+---@param Behavior "Keep" | "Force"
+---@param ... T
+---@return T
+function API.TableDeepExtend(Behavior, ...)
+    local result = {}
+    for _, Item in ipairs({ ... }) do
+        if Item ~= nil and type(Item) == "table" then
+            Item = API.Clone(Item)
+            for Key, Value in pairs(Item) do
+                if result[Key] ~= nil then
+                    if Behavior == "Force" then
+                        result[Key] = Value
+                    end
+                else
+                    result[Key] = Value
+                end
+            end
+        end
+    end
+    return result
+end
 return API

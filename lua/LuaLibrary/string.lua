@@ -10,6 +10,35 @@ function API.Join(...)
     return result
 end
 
+---@return string
+---@param str string
+function ToJsonString(str)
+    local result = ""
+    for i = 1, #str do
+        local character = str:sub(i, i)
+        if character == "\n" then
+            result = result .. "\\n"
+        elseif character == "\b" then
+            result = result .. "\\b"
+        elseif character == "\t" then
+            result = result .. "\\t"
+        elseif character == "\f" then
+            result = result .. "\\f"
+        elseif character == "\r" then
+            result = result .. "\\r"
+        elseif character == "/" then
+            result = result .. "\\/"
+        elseif character == '"' then
+            result = result .. '\\"'
+        elseif character == "\\" then
+            result = result .. "\\\\"
+        else
+            result = result .. character
+        end
+    end
+    return ('"%s"'):format(result)
+end
+
 ---@param obj any
 ---@return string
 function API.ObjectToJsonString(obj)
@@ -17,7 +46,7 @@ function API.ObjectToJsonString(obj)
     if type(obj) == "nil" then
         return "null"
     elseif type(obj) == "string" then
-        return API.ToJsonString(obj)
+        return ToJsonString(obj)
     elseif type(obj) == "boolean" then
         return obj and "true" or "false"
     elseif type(obj) == "number" then
@@ -73,35 +102,6 @@ function API.ObjectToJsonString(obj)
         end
     end
     return ('"%s"'):format(type(obj))
-end
-
----@return string
----@param str string
-function API.ToJsonString(str)
-    local result = ""
-    for i = 1, #str do
-        local character = str:sub(i, i)
-        if character == "\n" then
-            result = result .. "\\n"
-        elseif character == "\b" then
-            result = result .. "\\b"
-        elseif character == "\t" then
-            result = result .. "\\t"
-        elseif character == "\f" then
-            result = result .. "\\f"
-        elseif character == "\r" then
-            result = result .. "\\r"
-        elseif character == "/" then
-            result = result .. "\\/"
-        elseif character == '"' then
-            result = result .. '\\"'
-        elseif character == "\\" then
-            result = result .. "\\\\"
-        else
-            result = result .. character
-        end
-    end
-    return ('"%s"'):format(result)
 end
 
 return API

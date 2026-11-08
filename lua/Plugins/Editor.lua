@@ -77,6 +77,7 @@ function M.Load(globalPluginOptions)
                     local backend = "sixel"
                     if os.getenv("TERM") == "xterm-kitty" then
                         backend = "kitty"
+                        print("kitty")
                     end
                     require("image").setup({
                         backend = backend, -- kitty / ueberzug / sixel

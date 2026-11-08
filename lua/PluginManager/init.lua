@@ -1,4 +1,4 @@
----@alias IceThorn.VimPack.PluginSpec.InitializationFunction fun(EventArguments?:vim.api.keyset.create_autocmd.callback_args)
+---@alias IceThorn.VimPack.PluginSpec.InitializationFunction fun(Overwrite?:table?,EventArguments?:vim.api.keyset.create_autocmd.callback_args)
 ---@alias IceThorn.VimPack.Spec IceThorn.VimPack.PluginSpec | string
 ---@alias IceThorn.VimPack.Specs (IceThorn.VimPack.PluginSpec | string)[]
 
@@ -9,7 +9,7 @@
 ---@field Configura? IceThorn.VimPack.PluginSpec.Configura | IceThorn.VimPack.PluginSpec.InitializationFunction
 ---@field Overwrite? table
 
----@alias IceThorn.VimPack.PluginSpec.Configura.Event vim.api.keyset.events | vim.api.keyset.events[] | "VimPackNow"
+---@alias IceThorn.VimPack.PluginSpec.Configura.Event vim.api.keyset.events | vim.api.keyset.events[] | "Null"
 
 ---@class IceThorn.VimPack.PluginSpec.Configura
 ---@field LazyLoadEvent?  IceThorn.VimPack.PluginSpec.Configura.Event
@@ -22,6 +22,7 @@
 
 ---@class IceThorn.VimPack.PrivatePlugSpec
 ---@field Url             string
+---@field Overwrite       table?
 ---@field Initialization? IceThorn.VimPack.PluginSpec.InitializationFunction
 
 ---@class IceThorn.VimPack.Options
@@ -43,7 +44,7 @@ local M = {
     ---@type boolean
     IsInitialized = false,
 }
-
+local lib = require("LuaLibrary")
 ---@class IceThorn.VimPack.PluginStatus
 ---@field Name        string
 ---@field Source      string
@@ -71,15 +72,14 @@ M.Setup = function(Options)
         return
     end
     M.GobalOptions = vim.tbl_deep_extend("force", {}, M.GobalOptions, Options or {})
-    vim.api.nvim_create_user_command("VimPackList", function() end, {})
+    vim.api.nvim_create_user_command("VimPackList", function()
+        lib.PrintObject(vim.pack.get())
+    end, {})
     vim.api.nvim_create_user_command("VimPackUpdate", function()
         vim.pack.update()
     end, {})
 end
 
--- print_r(vim.version.range("1.*"))
--- print(type(vim.version.range("1.*")))
--- local ps = require("PluginManager.ProcessSource").ProcessSource
 ---@param Source IceThorn.VimPack.PluginSpec.Source | string
 ---@param Name   string?
 ---@return vim.pack.Spec
@@ -114,68 +114,87 @@ local ps = function(Source, Name)
     ---@type vim.pack.Spec
     return { src = Url, name = Name, version = version }
 end
----@param PluginSpecs IceThorn.VimPack.Specs
+
+---@param PluginSpecs IceThorn.VimPack.Spec[]
 function M.AddPlugins(PluginSpecs)
     if PluginSpecs == nil then
         return
     end
-    local VimPackSpecs = {}
-    ---@type table<IceThorn.VimPack.PluginSpec.Configura.Event, IceThorn.VimPack.PrivatePlugSpec[]>
-    local SetupOnEvent = {}
-    -- 解析插件Specs
-    for _, PluginSpec in ipairs(PluginSpecs) do
-        if type(PluginSpec) == "string" then
-            -- 仅URL
-            local vimPackSpec = ps(PluginSpec)
-            table.insert(VimPackSpecs, vimPackSpec)
-            M.LoadedPluginSpecs[vimPackSpec.src] = true
-        elseif type(PluginSpec) == "table" then
-            -- 复杂配置
-            local vimPackSpec = ps(PluginSpec.Source, PluginSpec.Name)
-            ---@type IceThorn.VimPack.PrivatePlugSpec
-            local privatePlugSpec = { Url = vimPackSpec.src }
-            M.LoadedPluginSpecs[vimPackSpec.src] = M.LoadedPluginSpecs[vimPackSpec.src] or false
-            if PluginSpec.Condition ~= false then
-                if type(PluginSpec.Configura) == "function" then
-                    privatePlugSpec.Initialization = PluginSpec.Configura
-                    SetupOnEvent["VimPackNow"] = SetupOnEvent["VimPackNow"] or {}
-                    table.insert(SetupOnEvent["VimPackNow"], privatePlugSpec)
-                elseif type(PluginSpec.Configura) == "table" and PluginSpec.Configura.Initialization ~= nil then
-                    local event = PluginSpec.Configura.LazyLoadEvent or "VimPackNow"
-                    privatePlugSpec.Initialization = PluginSpec.Configura.Initialization
-                    SetupOnEvent[event] = SetupOnEvent[event] or {}
-                    table.insert(SetupOnEvent[event], privatePlugSpec)
+    ---@type table<(vim.api.keyset.events | "Null"),string[]>
+    local eventUrlMap = {}
+    ---@type table<string,IceThorn.VimPack.PluginSpec.InitializationFunction?>
+    local pluginInitializationFunction = {}
+    ---@type table<string,boolean>
+    local pluginLoaded = {}
+    ---@type table<string,table?>
+    local pluginOverwrite = {}
+    ---@type table<string,vim.pack.Spec>
+    local pluginSpecs = {}
+
+    for _, item in ipairs(PluginSpecs) do
+        if type(item) == "string" then
+            pluginSpecs[item] = {
+                src = item,
+            }
+        elseif type(item) == "table" then
+            local pluginSpec = ps(item.Source, item.Name)
+            if item.Overwrite ~= nil then
+                pluginOverwrite[pluginSpec.src] =
+                    lib.Table.TableDeepExtend("Force", pluginOverwrite[pluginSpec.src] or {}, item.Overwrite or {})
+            elseif item.Condition ~= false then
+                pluginSpecs[pluginSpec.src] = pluginSpec
+                pluginLoaded[pluginSpec.src] = false
+                if type(item.Configura) == "function" then
+                    eventUrlMap["Null"] = eventUrlMap["Null"] or {}
+                    table.insert(eventUrlMap["Null"], pluginSpec.src)
+                    pluginInitializationFunction[pluginSpec.src] = item.Configura
+                elseif type(item.Configura) == "table" and item.Configura.LazyLoadEvent ~= nil then
+                    if type(item.Configura.LazyLoadEvent) == "string" then
+                        local event = item.Configura.LazyLoadEvent
+                        eventUrlMap[event] = eventUrlMap[event] or {}
+                        table.insert(eventUrlMap[event], pluginSpec.src)
+                    elseif type(item.Configura.LazyLoadEvent) == "table" then
+                        for _, event in ipairs(item.Configura.LazyLoadEvent) do
+                            eventUrlMap[event] = eventUrlMap[event] or {}
+                            table.insert(eventUrlMap[event], pluginSpec.src)
+                        end
+                    end
+                    pluginInitializationFunction[pluginSpec.src] = item.Configura.Initialization
+                elseif type(item.Configura) == "table" and item.Configura.LazyLoadEvent == nil then
+                    local event = "Null"
+                    eventUrlMap[event] = eventUrlMap[event] or {}
+                    table.insert(eventUrlMap[event], pluginSpec.src)
+                    pluginInitializationFunction[pluginSpec.src] = item.Configura.Initialization
                 end
-                table.insert(VimPackSpecs, vimPackSpec)
             end
         end
     end
-    vim.pack.add(VimPackSpecs, {
-        confirm = true,
-    })
-    for Event, PrivatePluginSpecs in pairs(SetupOnEvent) do
-        if Event == "VimPackNow" then
-            for _, privatePluginSpec in ipairs(PrivatePluginSpecs) do
-                if M.LoadedPluginSpecs[privatePluginSpec.Url] ~= true then
-                    M.LoadedPluginSpecs[privatePluginSpec.Url] = true
-                    if privatePluginSpec.Initialization ~= nil then
-                        privatePluginSpec.Initialization(nil)
-                        privatePluginSpec.Initialization = nil
-                    end
-                    M.LoadedPluginSpecs[privatePluginSpec.Url] = true
+    do
+        local specs = {}
+        for _, spec in pairs(pluginSpecs) do
+            table.insert(specs, spec)
+        end
+        vim.pack.add(specs)
+    end
+    for event, pluginUrls in pairs(eventUrlMap) do
+        if event == "Null" then
+            for _, pluginUrl in ipairs(pluginUrls) do
+                local initializationFunction = pluginInitializationFunction[pluginUrl]
+                if initializationFunction ~= nil then
+                    initializationFunction(pluginOverwrite[pluginUrl], nil)
+                    pluginInitializationFunction[pluginUrl] = nil
+                    pluginLoaded[pluginUrl] = true
                 end
             end
-        else
-            vim.api.nvim_create_autocmd(Event, {
-                callback = function()
-                    for _, privatePluginSpec in ipairs(PrivatePluginSpecs) do
-                        if M.LoadedPluginSpecs[privatePluginSpec.Url] ~= true then
-                            M.LoadedPluginSpecs[privatePluginSpec.Url] = true
-                            if privatePluginSpec.Initialization ~= nil then
-                                privatePluginSpec.Initialization(nil)
-                                privatePluginSpec.Initialization = nil
-                            end
-                            M.LoadedPluginSpecs[privatePluginSpec.Url] = true
+        elseif event ~= "Null" then
+            vim.api.nvim_create_autocmd(event, {
+                callback = function(callbackArguments)
+                    for _, pluginUrl in ipairs(pluginUrls) do
+                        local initializationFunction = pluginInitializationFunction[pluginUrl]
+                        if initializationFunction ~= nil then
+                            initializationFunction(pluginOverwrite[pluginUrl], callbackArguments)
+                            pluginInitializationFunction[pluginUrl] = nil
+                            pluginLoaded[pluginUrl] = true
                         end
                     end
                 end,
