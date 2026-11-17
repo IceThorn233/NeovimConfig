@@ -9,8 +9,8 @@ function M.Load(GlobalPluginOptions)
             Source = { Url = "https://github.com/stevearc/conform.nvim" },
             Condition = PluginOptions.EnableConform,
             Configura = {
-                Initialization = function()
-                    require("conform").setup({
+                Initialization = function(overwrite)
+                    require("conform").setup(require("LuaLibrary").Table.TableDeepExtend("Force", {
                         formatters_by_ft = {
                             lua = { "stylua" },
                             rust = { "rustfmt" },
@@ -20,12 +20,13 @@ function M.Load(GlobalPluginOptions)
                             sh = { "shfmt" },
                             dash = { "shfmt" },
                             bash = { "shfmt" },
+                            json = { "clang_format" },
                             zsh = { "shfmt" },
                             toml = { "pyproject-fmt", "taplo" },
                             cmake = { "cmakefmt" },
                             python = { "black" },
                         },
-                    })
+                    }, overwrite or {}))
                     ---@type conform.FileFormatterConfig
                     require("conform").formatters.cmake_format = {
                         meta = require("conform.formatters.clang_format").meta,
@@ -44,7 +45,9 @@ function M.Load(GlobalPluginOptions)
                         },
                         command = "cmakefmt",
                         args = {
-                            "$FILENAME",
+                            "-",
+                            "--stdin-path",
+                            "$DIRNAME",
                         },
                     }
                     require("conform").formatters.stylua = {

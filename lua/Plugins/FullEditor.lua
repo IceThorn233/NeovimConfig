@@ -49,33 +49,7 @@ M.Load = function(globalPluginOptions)
             Condition = PluginOptions.EnableNeoTree,
             Configura = {
                 Initialization = function()
-                    require("neo-tree").setup({
-                        filesystem = {
-                            filtered_items = {
-                                visible = true,
-                                never_show = {
-                                    ".DS_store",
-                                },
-                            },
-                            window = {
-                                mappings = {
-                                    ["<TAB>"] = { "toggle_node", nowait = true },
-                                    ["l"] = { "open", nowait = false },
-                                    ["h"] = { "close_node", nowait = true },
-                                },
-                            },
-                            commands = {},
-                        },
-                        sources = {
-                            "filesystem",
-                            "buffers",
-                            "git_status",
-                            "document_symbols",
-                        },
-                        clipboard = {
-                            sync = "global",
-                        },
-                    })
+                    require("neo-tree").setup()
                 end,
             },
         },
@@ -198,24 +172,24 @@ M.Load = function(globalPluginOptions)
                     --     -- default: see `/lua/cokeline/config.lua`
                     ---@type Component[]
                     components = {
-                        -- {
-                        --     ---@type nil | string | fun(buffer: Buffer): string
-                        --     text = function(buffer)
-                        --         if buffer.is_focused then
-                        --             return ""
-                        --         else
-                        --             return ""
-                        --         end
-                        --     end,
-                        --     fg = function()
-                        --         local catppuccin = require("catppuccin.palettes").get_palette()
-                        --         return catppuccin[forceBg]
-                        --     end,
-                        --     bg = function()
-                        --         local catppuccin = require("catppuccin.palettes").get_palette()
-                        --         return catppuccin[noBg]
-                        --     end,
-                        -- },
+                        {
+                            ---@type nil | string | fun(buffer: Buffer): string
+                            text = function(buffer)
+                                if buffer.is_focused then
+                                    return ""
+                                else
+                                    return ""
+                                end
+                            end,
+                            fg = function()
+                                local catppuccin = require("catppuccin.palettes").get_palette()
+                                return catppuccin[forceBg]
+                            end,
+                            bg = function()
+                                local catppuccin = require("catppuccin.palettes").get_palette()
+                                return catppuccin[noBg]
+                            end,
+                        },
                         {
                             text = function(buffer)
                                 return (
@@ -268,24 +242,24 @@ M.Load = function(globalPluginOptions)
                                 buffer:delete()
                             end,
                         },
-                        -- {
-                        --     ---@type nil | string | fun(buffer: Buffer): string
-                        --     text = function(buffer)
-                        --         if buffer.is_focused then
-                        --             return ""
-                        --         else
-                        --             return ""
-                        --         end
-                        --     end,
-                        --     fg = function()
-                        --         local catppuccin = require("catppuccin.palettes").get_palette()
-                        --         return catppuccin[forceBg]
-                        --     end,
-                        --     bg = function()
-                        --         local catppuccin = require("catppuccin.palettes").get_palette()
-                        --         return catppuccin[noBg]
-                        --     end,
-                        -- },
+                        {
+                            ---@type nil | string | fun(buffer: Buffer): string
+                            text = function(buffer)
+                                if buffer.is_focused then
+                                    return ""
+                                else
+                                    return ""
+                                end
+                            end,
+                            fg = function()
+                                local catppuccin = require("catppuccin.palettes").get_palette()
+                                return catppuccin[forceBg]
+                            end,
+                            bg = function()
+                                local catppuccin = require("catppuccin.palettes").get_palette()
+                                return catppuccin[noBg]
+                            end,
+                        },
                     },
                     --
                     --     -- Custom areas can be displayed on the right hand side of the bufferline.
@@ -576,12 +550,23 @@ M.Load = function(globalPluginOptions)
             },
         },
         {
-            Source = { Url = "https://github.com/CRAG666/betterTerm.nvim.git"},
+            Source = { Url = "https://github.com/CRAG666/betterTerm.nvim.git" },
             Condition = PluginOptions.EnableBetterTerm,
-            Configura = function ()
+            Configura = function()
                 require("betterTerm").setup({})
-                
-            end
+            end,
+        },
+        {
+            Source = { Url = "https://codeberg.org/gi1242/nvim-autosave.git" },
+            Condition = PluginOptions.EnableAutoSave,
+            Configura = function()
+                require("autosave").setup({
+                    timeout = 0, -- miliseconds
+                    verbose = true,
+                    enabled_on_startup = true,
+                    notify = vim.notify,
+                })
+            end,
         },
     }
 end

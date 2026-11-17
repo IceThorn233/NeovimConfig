@@ -1,4 +1,5 @@
 local API = {}
+local listLib = require("LuaLibrary.list")
 API.Clone = require("LuaLibrary.none").Clone
 
 ---@class IceThorn.Library.ChangeValue.Behavior
@@ -44,12 +45,25 @@ end
 ---@return T
 function API.TableDeepExtend(Behavior, ...)
     local result = {}
-    for _, Item in ipairs({ ... }) do
-        if Item ~= nil and type(Item) == "table" then
+    local list = { ... }
+    local isList = true
+    for _, item in ipairs(list) do
+        if not listLib.IsList(item) then
+            isList = false
+            break
+        end
+    end
+    if isList then
+        return listLib.Merge(unpack(list))
+    end
+    for _, Item in ipairs(list) do
+        if type(Item) == "table" then
             Item = API.Clone(Item)
             for Key, Value in pairs(Item) do
-                if result[Key] ~= nil then
-                    if Behavior == "Force" then
+                if Behavior == "Force" then
+                    if type(result[Key]) == "table" then
+                        result[Key] = API.TableDeepExtend(Behavior, result[Key], Value)
+                    else
                         result[Key] = Value
                     end
                 else

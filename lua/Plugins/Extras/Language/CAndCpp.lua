@@ -9,7 +9,18 @@ M.Load = function(globalPluginOptions)
             Source = "https://github.com/Mythos-404/xmake.nvim.git",
             Condition = pluginOptions.EnableCAndCpp,
             Configura = function()
-                require("xmake").setup({})
+                require("xmake").setup({
+                    on_save = {
+                        -- Reload project information
+                        reload_project_info = false,
+                        -- Configuration for generating `compile_commands.json`
+                        lsp_compile_commands = {
+                            enable = false,
+                            -- Directory name (relative path) for output file
+                            output_dir = "build",
+                        },
+                    },
+                })
             end,
         },
         {
@@ -448,6 +459,20 @@ M.Load = function(globalPluginOptions)
                     },
                 })
             end,
+        },
+        {
+            Source = "https://codeberg.org/mfussenegger/nvim-lint.git",
+            Overwrite = {
+                ["c"] = { "clangtidy" },
+                ["cpp"] = { "clangtidy" },
+                ["objc"] = { "clangtidy" },
+            },
+        },
+        {
+            Source = "https://github.com/rshkarin/mason-nvim-lint.git",
+            Overwrite = {
+                ensure_installed = { "clnag-tidy" },
+            },
         },
     }
 end

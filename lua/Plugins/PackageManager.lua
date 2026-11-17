@@ -1,4 +1,5 @@
 local M = {}
+local lib = require("LuaLibrary")
 ---@param globalPluginOptions IceThorn.PluginList
 ---@return IceThorn.VimPack.Specs
 function M.Load(globalPluginOptions)
@@ -33,19 +34,22 @@ function M.Load(globalPluginOptions)
         -- {
         --     Source = "https://github.com/jay-babu/mason-nvim-dap.nvim.git",
         --     Condition = PluginOptions.EnableMeson,
-        --     Configura = function ()
-        --         require("mason-nvim-dap").setup()
-        --     end
+        --     Configura = function(overwrite)
+        --         require("mason-nvim-dap").setup(require("LuaLibrary").List.Merge(overwrite or {}))
+        --     end,
         -- },
         {
             Source = "https://github.com/mason-org/mason-lspconfig.nvim.git",
             Condition = PluginOptions.EnableMeson,
-            Configura = function()
-                require("mason-lspconfig").setup({
-                    ensure_installed = require("LuaLibrary").List.Merge(
-                        PluginOptions.LanguageServerProtocolToInstall or {}
-                    ),
-                })
+            Configura = function(overwrite)
+                require("mason-lspconfig").setup(lib.Table.TableDeepExtend("Keep", overwrite or {}))
+            end,
+        },
+        {
+            Source = "https://github.com/rshkarin/mason-nvim-lint.git",
+            Condition = PluginOptions.EnableMeson and globalPluginOptions.LanguageServerProtocol.EnableNVimLint,
+            Configura = function(overwrite)
+                require("mason-nvim-lint").setup(lib.Table.TableDeepExtend("Keep", overwrite or {}))
             end,
         },
     }

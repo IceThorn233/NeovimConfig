@@ -35,7 +35,7 @@ local HasMiniFile = CheckIfTheModuleExists("mini.files")
 local HasEdgyGroup = CheckIfTheModuleExists("edgy-group")
 local HasTelescope = CheckIfTheModuleExists("telescope")
 local HasSmartSplit = CheckIfTheModuleExists("smart-splits")
-local HasPersisted = CheckIfTheModuleExists("persisted")
+local HasResession = CheckIfTheModuleExists("resession")
 local HasBetterTerm = CheckIfTheModuleExists("betterTerm")
 
 if HasMiniFile then
@@ -94,44 +94,31 @@ elseif HasYazi then
 end
 
 if HasBetterTerm then
-    vim.keymap.set({ "n", "t" }, "<C-t>", function()
-        require("betterTerm").open()
-    end, {
+    vim.keymap.set({ "n", "t" }, "<C-t>", require("betterTerm").open, {
         desc = "Open BetterTerm 0",
     })
-    vim.keymap.set({ "n", "t" }, "<C-x>pt", function()
-        require("betterTerm").select()
-    end, {
+    vim.keymap.set({ "n", "t" }, "<C-x>pt", require("betterTerm").select, {
         desc = "Select terminal",
     })
+    vim.keymap.set({ "n", "t" }, "<M-TAB>", function()
+        require("betterTerm").cycle(1)
+    end)
 end
-if HasPersisted then
-    vim.keymap.set("n", "<C-c>ps", "<CMD>Persisted save<CR>", { desc = "Save session.", silent = true, noremap = true })
+if HasResession then
+    local resession = require("resession")
+    vim.keymap.set("n", "<C-c>ps", resession.save, { desc = "Save session.", silent = true, noremap = true })
     vim.keymap.set(
         "n",
         "<C-c>pd",
-        "<CMD>Persisted delete_current<CR>",
+        resession.delete,
         { desc = "Delete current session.", silent = true, noremap = true }
-    )
-    vim.keymap.set(
-        "n",
-        "<C-c>pl",
-        "<CMD>Persisted load_last<CR>",
-        { desc = "Load last session.", silent = true, noremap = true }
     )
     if HasTelescope then
         vim.keymap.set(
             "n",
             "<C-x>ps",
-            "<CMD>Telescope persisted<CR>",
-            { desc = "Search session.", silent = true, noremap = true }
-        )
-    else
-        vim.keymap.set(
-            "n",
-            "<C-x>ps",
-            "<CMD>Persisted select<CR>",
-            { desc = "Search session.", silent = true, noremap = true }
+            require("telescope").extensions.resession.resession,
+            { desc = "Pick session.", silent = true, noremap = true }
         )
     end
 end
@@ -151,10 +138,10 @@ end
 
 if HasDap then
     local Dap = require("dap")
-    vim.keymap.set("n", "<C-x><C-d><C-b>", Dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
-    vim.keymap.set("n", "<C-x><C-d>b", Dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
-    vim.keymap.set("n", "<C-x><C-d><C-c>", Dap.continue, { desc = "Continue" })
-    vim.keymap.set("n", "<C-x><C-d>c", Dap.continue, { desc = "Continue" })
+    vim.keymap.set("n", "<C-c><C-d><C-b>", Dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+    vim.keymap.set("n", "<C-c><C-d>b", Dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+    vim.keymap.set("n", "<C-c><C-d><C-c>", Dap.continue, { desc = "Continue" })
+    vim.keymap.set("n", "<C-c><C-d>c", Dap.continue, { desc = "Continue" })
     vim.keymap.set("n", "<F5>", Dap.continue, { desc = "Continue" })
     vim.keymap.set("n", "<F9>", Dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
     -- vim.keymap.set("n", "<C-d>i", Dap.step_into, { desc = "Step into" })
@@ -198,11 +185,11 @@ else
     vim.keymap.set("n", "<A-S-L>", "<CMD>+tabmove<CR>", { silent = true })
 end
 
-if HasBDelete then
-    vim.keymap.set({ "n" }, "<C-x>k", "<CMD>Bdelete<CR>", { desc = "Delete buffer" })
-else
-    vim.keymap.set({ "n" }, "<C-x>k", "<CMD>bdelete<CR>", { desc = "Delete buffer" })
-end
+-- if HasBDelete then
+--     vim.keymap.set({ "n" }, "<C-x>k", "<CMD>Bdelete<CR>", { desc = "Delete buffer" })
+-- else
+vim.keymap.set({ "n" }, "<C-x>k", "<CMD>bdelete<CR>", { desc = "Delete buffer" })
+-- end
 if HasConform then
     vim.keymap.set("n", "<A-o><C-f>", require("conform").format, { desc = "Format", silent = true })
 end

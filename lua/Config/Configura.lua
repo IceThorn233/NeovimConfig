@@ -55,7 +55,7 @@ vim.o.incsearch = true -- search as characters are entered
 vim.o.hlsearch = false -- do not highlight matches
 vim.o.ignorecase = true -- ignore case in searches by default
 vim.o.smartcase = true -- but make it case sensitive if an uppercase is entered
-vim.o.sessionoptions = "help,buffers,curdir,folds,tabpages,terminal,globals"
+-- vim.o.sessionoptions = "help,buffers,curdir,folds,tabpages,terminal,globals"
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -79,6 +79,8 @@ vim.filetype.add({
         [ [[.*/scroll/config]] ] = "swayconfig",
         [ [[.*/scroll/.*%.conf]] ] = "swayconfig",
         [ [[.*/neomutt/.*%.conf]] ] = "muttrc",
+        [ [[.*/tmux/.*%.conf]] ] = "tmux",
+        [ [[.*/tmux/.*%.tmux]] ] = "tmux",
         [ [[.*/foot/.*%.ini]] ] = "conf",
         [ [[.*/.*%.props]] ] = "xml",
         [ [[.*/.*%.target]] ] = "xml",

@@ -77,7 +77,6 @@ function M.Load(globalPluginOptions)
                     local backend = "sixel"
                     if os.getenv("TERM") == "xterm-kitty" then
                         backend = "kitty"
-                        print("kitty")
                     end
                     require("image").setup({
                         backend = backend, -- kitty / ueberzug / sixel
@@ -118,41 +117,7 @@ function M.Load(globalPluginOptions)
             Condition = PluginOptions.EnableIndentBlankline and PluginOptions.IndentBlacklinePreset == "Hlchunk",
             Configura = {
                 Initialization = function()
-                    require("hlchunk").setup({
-                        chunk = {
-                            enable = true,
-                            chars = {
-                                ["left_top"] = "┢",
-                                ["horizontal_line"] = "━",
-                                ["vertical_line"] = "┃",
-                                ["left_bottom"] = "┡",
-                                ["right_arrow"] = "━",
-                            },
-                            style = {
-                                "#04a5e5",
-                            },
-                            -- use_treesitter = true,
-                        },
-                        indent = {
-                            enable = true,
-                            exclude_filetypes = globalPluginOptions.ExcouldFiletypes,
-                            style = {
-                                "#ea76cb",
-                                "#8839ef",
-                                "#d20f39",
-                                "#e64553",
-                                "#fe640b",
-                                "#df8e1d",
-                                "#40a02b",
-                                "#179299",
-                                "#04a5e5",
-                                "#209fb5",
-                                "#1e66f5",
-                                "#7287fd",
-                            },
-                            -- use_treesitter = true,
-                        },
-                    })
+                    require("hlchunk").setup()
                 end,
                 LazyLoadEvent = {
                     "BufEnter",

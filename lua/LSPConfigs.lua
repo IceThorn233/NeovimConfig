@@ -14,13 +14,44 @@ vim.lsp.enable({
     "rust-analyzer",
     -- "ccls",
     "tablo",
-    "lua_ls",
+    -- "lua_ls",
     "emmylua_ls",
     "jsonls",
     "lemminx",
     "neocmake",
     "yamlls",
+    "clice",
 })
+vim.lsp.config("bashls", {
+    filetypes = {
+        "zsh",
+        "sh",
+        "bash",
+        "csh",
+        "ksh",
+    },
+})
+vim.api.nvim_set_hl(0, '@lsp.mod.inactive', { link = 'Comment', default = true })
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--     callback = function(args)
+--         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+--         if client.name ~= "clice" then
+--             return
+--         end
+--         vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+--         -- `import ` completes module names.
+--         vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+--         local group = vim.api.nvim_create_augroup("clice-highlight-" .. args.buf, {})
+--         vim.api.nvim_create_autocmd(
+--             "CursorHold",
+--             { group = group, buffer = args.buf, callback = vim.lsp.buf.document_highlight }
+--         )
+--         vim.api.nvim_create_autocmd(
+--             "CursorMoved",
+--             { group = group, buffer = args.buf, callback = vim.lsp.buf.clear_references }
+--         )
+--     end,
+-- })
 vim.lsp.config("emmylua_ls", {
     on_init = function(Client)
         -- If the workspace has its own emmylua_ls/lua_ls config file, defer to it.

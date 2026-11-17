@@ -37,6 +37,7 @@
 ---@field EnableTelescopeFzfNative? boolean
 ---@field EnableToggleTerm?         boolean
 ---@field EnableBetterTerm?         boolean
+---@field EnableAutoSave?           boolean
 
 ---@class IceThorn.PluginList.LanguageServerProtocol
 ---@field EnableBlinkCmp?         boolean
@@ -74,6 +75,7 @@
 ---@class IceThorn.PluginList.Extras
 ---@field EnableCAndCpp? boolean
 ---@field EnableMarkdown? boolean
+---@field EnableDebug? boolean
 
 local M = {
     UserOptions = {},
@@ -262,6 +264,7 @@ M.Load = function(PluginOptions, ...)
             require("Plugins.LanguageServerProtocol").Load(PluginOptions or {}),
             require("Plugins.Treesitter").Load(PluginOptions or {}),
             require("Plugins.Themes").Load(PluginOptions or {}),
+            require("Plugins.Coding.Debug").Load(PluginOptions or {}),
             require("Plugins.Extras.Language.CAndCpp").Load(PluginOptions or {}),
             require("Plugins.Extras.Language.Markdown").Load(PluginOptions or {}),
             ...
